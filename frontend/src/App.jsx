@@ -36,27 +36,34 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1>MongoDB Replica Failover</h1>
+    <div style={{ maxWidth: 600, margin: 'auto', padding: '2rem', fontFamily: 'Segoe UI' }}>
+      <h1 style={{ textAlign: 'center' }}>🛡️ MongoDB Replica Failover Demo</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Note Title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
+          style={{ padding: '0.5rem', fontSize: '1rem' }}
         />
         <textarea
-          placeholder="Content"
+          placeholder="Note Content"
           value={form.content}
           onChange={(e) => setForm({ ...form, content: e.target.value })}
+          style={{ padding: '0.5rem', fontSize: '1rem' }}
+          rows={4}
         ></textarea>
-        <button type="submit">Add Note</button>
+        <button type="submit" style={{ padding: '0.5rem', fontSize: '1rem', cursor: 'pointer', backgroundColor: '#4CAF50', color: 'white', border: 'none' }}>
+          ➕ Add Note
+        </button>
       </form>
-      <ul>
+
+      <ul style={{ listStyle: 'none', padding: 0 }}>
         {notes.map((note) => (
-          <li key={note._id}>
-            <strong>{note.title}:</strong> {note.content}
+          <li key={note._id} style={{ marginBottom: '1rem', borderBottom: '1px solid #ccc', paddingBottom: '0.5rem' }}>
+            <strong>{note.title}</strong>: {note.content}
           </li>
         ))}
       </ul>

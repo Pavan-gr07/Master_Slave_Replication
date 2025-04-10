@@ -1,16 +1,12 @@
-const servers = [
-    'http://localhost:3000', // Backend1
-    'http://192.168.1.20:3000', // Backend2
-];
+const LOAD_BALANCER_URL = 'http://localhost:4000'; // NGINX Load Balancer
 
 export async function apiFetch(path, options = {}) {
-    for (const server of servers) {
-        try {
-            const res = await fetch(`${server}${path}`, options);
-            if (res.ok) return res;
-        } catch (err) {
-            console.warn(`Failed to reach ${server}. Trying next...`);
-        }
+    try {
+        const res = await fetch(`${LOAD_BALANCER_URL}${path}`, options);
+        if (res.ok) return res;
+        throw new Error('Request failed.');
+    } catch (err) {
+        console.error('Failed to reach load balancer:', err);
+        throw err;
     }
-    throw new Error('All backend servers are unreachable.');
 }

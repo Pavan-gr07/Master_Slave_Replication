@@ -8,7 +8,7 @@ const connectDB = async () => {
         await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            replicaSet: 'rs0',           // Keep this if your Docker Mongo has replica set enabled
+            replicaSet: 'rs0',
             readPreference: 'primary',
             retryWrites: true,
             w: 'majority'
