@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    command: >
+      mongod --replSet rs0 --bind_ip_all &
+      sleep 5 && 
+      mongosh --host mongo:27017 <<EOF
+      rs.initiate({
+        _id: 'rs0',
+        members: [
+          { _id: 0, host: 'mongo:27017' }
+        ]
+      })
+      EOF
+
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/test?replicaSet=rs0
+      - SERVER_ID=backend
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_PRIMARY_BACKEND=http://backend:3000
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
