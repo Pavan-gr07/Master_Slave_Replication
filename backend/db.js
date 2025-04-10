@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb://localhost:27017/mydb?replicaSet=rs0';
+const MONGO_URI = 'mongodb://192.168.100.153:27017,192.168.100.197:27017/mydb?replicaSet=rs0';
+
 
 const connectDB = async () => {
     try {
